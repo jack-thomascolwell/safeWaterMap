@@ -4,6 +4,9 @@
 
 body {
   margin: 0;
+  background-color: black;
+  color: white;
+  font-family: monospace;
 }
 
 #main {
@@ -19,7 +22,6 @@ body {
 .section {
   width: 100%;
   height: 100%;
-  border: 1px solid blue;
 }
 
 #map {
@@ -35,8 +37,7 @@ body {
   grid-row-start: 2;
   grid-row-end: 3;
 
-  width: 90%;
-  margin: 0 5%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -44,38 +45,25 @@ body {
 }
 
 #search input {
-  width: 75%;
+  width: 90%;
   padding: 0;
   margin: auto 0;
   letter-spacing: 0.25ex;
-  font-family: monospace;
   border: 0;
   box-shadow: none;
-  border-bottom: 1px solid gray;
-  color: gray;
+  border-bottom: 1px solid white;
   font-size: 1rem;
   text-align: center;
-}
-
-#search input:hover {
-  color: black;
-  border-bottom: 1px solid black;
+  background-color: black;
 }
 
 #search input:focus {
   outline: none;
-  color: black;
-  border-bottom: 1px solid black;
 }
 
 #search i {
-  color: gray;
   margin-top: auto;
   margin-bottom: auto;
-}
-
-#search i:hover {
-  color: black;
 }
 
 #title {
@@ -85,19 +73,79 @@ body {
   grid-row-end: 2;
 
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  letter-spacing: 0.25rem;
 }
 
 #title h1 {
+  margin: 0;
+  padding: 0;
   font-size: 3rem;
-  font-family: sans-serif;
+  font-weight: bold;
 }
 
-#form {
+#moreButton {
+  font-size: 2rem;
+}
+
+#moreButton::before {
+  content: "[";
+}
+
+#moreButton::after {
+  content: "]";
+}
+
+#title h2 {
+  margin: 0;
+  padding-top: 5px;
+  font-size: 1.25rem;
+  font-weight: lighter;
+  letter-spacing: normal;
+}
+
+#form{
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 3;
   grid-row-end: 4;
+}
+
+#form form {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#form form div {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: flex-start;
+}
+
+#form input {
+  padding: 0;
+  margin: 0;
+  letter-spacing: 0.25ex;
+  border: 0;
+  box-shadow: none;
+  border-bottom: 1px solid white;
+  font-size: 1rem;
+  text-align: center;
+  background-color: black;
+}
+
+#form input:focus {
+  outline: none;
+}
+
+.hidden {
+  display: hidden;
 }
