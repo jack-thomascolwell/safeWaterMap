@@ -12,24 +12,56 @@
   <% end %>
 </div>
 <div id="search" class="section">
-  <input id="search" type="text"/>
+  <input id="searchInput" type="text" placeholder="search" autocomplete="off"/>
+  <i id="searchIcon" class="fas fa-search"></i>
 </div>
-<div id="title" class="section"></div>
+<div id="title" class="section">
+  <h1>Safe Water Map</h1>
+  <button>More</button>
+</div>
 </div>
 
 <script>
 let mapData = [];
+let markers = [];
 function getWeights(ppb) {
   return ppb;
 }
+let pos = null;
 <% @points.each do |p| %>
+pos = new google.maps.LatLng(<%= p.latitude %>, <%= p.longitude %>);
 mapData.push({
-  location: new google.maps.LatLng(<%= p.latitude %>, <%= p.longitude %>),
+  location: pos,
   weight: getWeights(<%= p.ppb %>)
 });
+markers.push(new google.maps.Marker({
+  position: pos,
+  title: '<%= p.ppb %> ppb'
+}));
 <% end %>
 let mapElem = document.getElementById('map');
 let heatmap = new google.maps.visualization.HeatmapLayer({data: mapData});
+
+let addLayers = map => {
+  heatmap.setMap(map);
+  markers.forEach(m => {
+    m.setMap(map);
+  });
+
+  let centerOnSearch = () => {
+    let address = document.getElementById('searchInput').value;
+    let geocoder = new google.maps.Geocoder();
+    geocoder.geocode({
+      'address': address
+    }, (results, status) => {
+      map.fitBounds(results[0].geometry.viewport);
+    });
+  }
+  document.getElementById('searchInput').addEventListener('keydown', ()=>{
+    if (event.keyCode === 13) centerOnSearch();
+  });
+  document.getElementById('searchIcon').addEventListener('click', centerOnSearch);
+};
 
 navigator.geolocation.getCurrentPosition(pos => {
   let center = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
@@ -37,18 +69,15 @@ navigator.geolocation.getCurrentPosition(pos => {
     center: center,
     zoom: 13
   });
-  heatmap.setMap(map);
+  addLayers(map);
 }, err => {
   let map = new google.maps.Map(mapElem);
   let geocoder = new google.maps.Geocoder();
   geocoder.geocode({
     'address': 'US'
   }, (results, status) => {
-    let ne = results[0].geometry.viewport.getNorthEast();
-    let sw = results[0].geometry.viewport.getSouthWest();
-
     map.fitBounds(results[0].geometry.viewport);
   });
-  heatmap.setMap(map);
+  addLayers(map);
 });
 </script>
