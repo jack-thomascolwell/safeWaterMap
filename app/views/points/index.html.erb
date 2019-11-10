@@ -1,0 +1,31 @@
+<script>
+  mapData = [];
+  <% @points.each do |p| %>
+    heatmapData.push({
+      location: new google.maps.LatLng(<%= p.latitude %>, <%= p.longitude %>),
+      weight: <%= p.ppb %>
+    });
+  <% end %>
+</script>
+
+
+<%= form_with(url: "/upload", method: "post") do %>
+  <%= label_tag(:latitude, "latitude:") %>
+  <%= text_field_tag(:latitude) %>
+
+  <%= label_tag(:longitude, "longitude:") %>
+  <%= text_field_tag(:longitude) %>
+
+  <%= label_tag(:ppb, "ppb:") %>
+  <%= text_field_tag(:ppb) %>
+
+  <%= submit_tag("Submit") %>
+<% end %>
+
+<% @points.each do |p|%>
+<p><%= p.latitude %> x <%= p.longitude %>: <%= p.ppb %> </p>
+<% end %>
+
+<% @bans.each do |b| %>
+<p><%= b.ip %></p>
+<% end %>
