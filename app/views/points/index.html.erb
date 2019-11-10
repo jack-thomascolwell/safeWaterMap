@@ -1,23 +1,23 @@
+<div id="about" class="scrolled">
+  <button id="exitAbout">x</button>
+</div>
 <div id="main">
   <div id="map" class="section"></div>
   <div id="form" class="section">
     <%= form_with(url: "/upload", method: "post") do %>
-    <div>
+    <p>Post Your Results</p>
       <%= label_tag(:address, "Address") %>
-      <%= text_field_tag(:address) %>
-    </div>
+      <%= text_field_tag(:address, nil, {autocomplete: 'hidden', placeholder: 'address'}) %>
 
     <div class="hidden">
       <%= text_field_tag(:longitude) %>
       <%= text_field_tag(:latitude) %>
     </div>
 
-    <div>
       <%= label_tag(:ppb, "Lead Conc. (ppb)") %>
-      <%= text_field_tag(:ppb) %>
-    </div>
+      <%= text_field_tag(:ppb, nil, {autocomplete: 'hidden', placeholder: 'ppb'}) %>
 
-    <%= submit_tag("Add Your Data") %>
+    <%= submit_tag("[Post]") %>
   <% end %>
 </div>
 <div id="search" class="section">
@@ -31,6 +31,14 @@
   </div>
 
   <script>
+    document.getElementById('exitAbout').addEventListener('click', () => {
+      document.getElementById('about').classList.add('scrolled');
+    });
+
+    document.getElementById('moreButton').addEventListener('click', () => {
+      document.getElementById('about').classList.remove('scrolled');
+    });
+
     let mapData = [];
     let markers = [];
     function getWeights(ppb) {

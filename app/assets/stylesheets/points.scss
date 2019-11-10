@@ -3,10 +3,12 @@
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
 body {
+  z-index: -1;
   margin: 0;
   background-color: black;
   color: white;
   font-family: monospace;
+  overflow: hidden;
 }
 
 #main {
@@ -37,14 +39,16 @@ body {
   grid-row-start: 2;
   grid-row-end: 3;
 
-  width: 100%;
+  width: 80%;
+  margin: 0 10%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: baseline;
 }
 
-#search input {
+#search input[type='text'] {
+  color: white !important;
   width: 90%;
   padding: 0;
   margin: auto 0;
@@ -57,7 +61,7 @@ body {
   background-color: black;
 }
 
-#search input:focus {
+#search input[type='text']:focus {
   outline: none;
 }
 
@@ -75,7 +79,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   letter-spacing: 0.25rem;
 }
 
@@ -88,6 +92,10 @@ body {
 
 #moreButton {
   font-size: 2rem;
+}
+
+#moreButton:hover {
+  color: darken(white, 15%);
 }
 
 #moreButton::before {
@@ -111,41 +119,124 @@ body {
   grid-column-end: 3;
   grid-row-start: 3;
   grid-row-end: 4;
+  height: auto !important;
+}
+
+#form p {
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 #form form {
-  width: 100%;
+  margin: 0 10%;
+  width: 80%;
   height: 100%;
 
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
 }
 
-#form form div {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  justify-content: flex-start;
+#form form label {
+  white-space: nowrap;
 }
 
-#form input {
+#form form label::after {
+  content: ":";
+}
+
+#form input[type='text'] {
+  color: white !important;
+  width: 100%;
   padding: 0;
-  margin: 0;
+  margin-bottom: 3ex;
   letter-spacing: 0.25ex;
   border: 0;
   box-shadow: none;
   border-bottom: 1px solid white;
   font-size: 1rem;
-  text-align: center;
+  text-align: left;
   background-color: black;
 }
 
-#form input:focus {
+#form input[type='text']:focus {
   outline: none;
 }
 
+#form input[type='submit'] {
+  color: white;
+  background-color: black;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  font-family: monospace !important;
+  font-weight: bold;
+  font-size: 0.75rem;
+}
+
+#form input[type='submit']:focus {
+  outline: none;
+}
+
+#searchIcon:hover {
+  color: darken(white, 15%);
+}
+
+input[type='text']:hover {
+  color: darken(white, 15%);
+  border-bottom: 1px solid darken(white, 15%);
+}
+
+#form input[type='submit']:hover {
+  color: darken(white, 15%);
+}
+
 .hidden {
-  display: hidden;
+  display: none !important;
+}
+
+#about {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  transition: top 0.5s ease-in-out;
+  background-color: black;
+  z-index: 10000;
+}
+
+#about.scrolled {
+  top: 100vh;
+}
+
+#exitAbout {
+  font-weight: bold;
+  position: absolute;
+  right: 2vw;
+  top: 2vw;
+  font-size: 1.5rem;
+  background-color: black;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  border: 0;
+  color: white;
+}
+
+#exitAbout:focus {
+  outline: none;
+}
+
+#exitAbout:hover {
+  color: darken(white, 15%);
+}
+
+#exitAbout::before {
+  content: "[";
+}
+
+#exitAbout::after {
+  content: "]";
 }
