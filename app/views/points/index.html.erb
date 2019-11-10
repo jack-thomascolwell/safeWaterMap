@@ -4,7 +4,7 @@
 <div id="main">
   <div id="map" class="section"></div>
   <div id="form" class="section">
-    <%= form_with(url: "/upload", method: "post") do %>
+    <%= form_with(url: "/upload", method: "post", id: "pointForm") do %>
     <p>Post Your Results</p>
     <%= label_tag(:address, "Address") %>
     <%= text_field_tag(:address, nil, {autocomplete: 'hidden', placeholder: 'address'}) %>
@@ -18,6 +18,10 @@
     <%= text_field_tag(:ppb, nil, {autocomplete: 'hidden', placeholder: 'ppb'}) %>
 
     <%= submit_tag("[Post]", :id => "formSubmit") %>
+    <% if session[:ban_alert] %>
+      <p id="ban_alert">You must wait 24hr to submit</p>
+      <% session[:ban_alert] = false; %>
+    <% end %>
   <% end %>
 </div>
 <div id="search" class="section">
@@ -51,7 +55,11 @@
     markers.push(new google.maps.Marker({position: pos, title: '<%= p.ppb %> ppb'}));
     <% end %>
     let mapElem = document.getElementById('map');
-    let heatmap = new google.maps.visualization.HeatmapLayer({data: mapData});
+    let heatmap = new google.maps.visualization.HeatmapLayer({
+      data: mapData,
+      dissipating: true,
+      radius: 25
+    });
 
     let addLayers = map => {
       let styledMapType = new google.maps.StyledMapType([
@@ -224,7 +232,7 @@
       map.setMapTypeId('styled_map');
       heatmap.setMap(map);
       markers.forEach(m => {
-        m.setMap(map);
+        //m.setMap(map);
       });
 
       let centerOnSearch = () => {
@@ -277,5 +285,23 @@
         map.fitBounds(results[0].geometry.viewport);
       });
       addLayers(map);
+    });
+
+    document.getElementById('address').addEventListener('keydown', e => {
+      let geocoder = new google.maps.Geocoder();
+      geocoder.geocode({
+        'address': document.getElementById('address').value
+      }, (results, status) => {
+        if (results[0]) {
+          document.getElementById('latitude').value = results[0].geometry.location.lat();
+          document.getElementById('longitude').value = results[0].geometry.location.lng();
+        }
+      });
+    });
+
+    document.getElementById('pointForm').addEventListener('submit', () => {
+      setTimeout(() => {
+        window.location.reload(true)
+      }, 150);
     });
   </script>

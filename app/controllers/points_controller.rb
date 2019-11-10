@@ -8,6 +8,7 @@ class PointsController < ApplicationController
   def create
     @ban = Ban.where(ip: request.remote_ip, time: (Time.now - 24.hours)..Time.now);
     if @ban[0]
+      session[:ban_alert] = true;
       head 403
     else
       @point = Point.where(latitude: params[:latitude], longitude: params[:longitude]).first_or_create!(ppb: params[:ppb]).update(ppb: params[:ppb])
