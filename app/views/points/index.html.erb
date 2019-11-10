@@ -1,9 +1,12 @@
 <script>
   mapData = [];
+  function getWeights(ppb) {
+    return ppb;
+  }
   <% @points.each do |p| %>
     heatmapData.push({
       location: new google.maps.LatLng(<%= p.latitude %>, <%= p.longitude %>),
-      weight: <%= p.ppb %>
+      weight: getWeights(<%= p.ppb %>)
     });
   <% end %>
 </script>
