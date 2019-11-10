@@ -6,16 +6,16 @@
   <div id="form" class="section">
     <%= form_with(url: "/upload", method: "post") do %>
     <p>Post Your Results</p>
-      <%= label_tag(:address, "Address") %>
-      <%= text_field_tag(:address, nil, {autocomplete: 'hidden', placeholder: 'address'}) %>
+    <%= label_tag(:address, "Address") %>
+    <%= text_field_tag(:address, nil, {autocomplete: 'hidden', placeholder: 'address'}) %>
 
     <div class="hidden">
       <%= text_field_tag(:longitude) %>
       <%= text_field_tag(:latitude) %>
     </div>
 
-      <%= label_tag(:ppb, "Lead Conc. (ppb)") %>
-      <%= text_field_tag(:ppb, nil, {autocomplete: 'hidden', placeholder: 'ppb'}) %>
+    <%= label_tag(:ppb, "Lead Conc. (ppb)") %>
+    <%= text_field_tag(:ppb, nil, {autocomplete: 'hidden', placeholder: 'ppb'}) %>
 
     <%= submit_tag("[Post]") %>
   <% end %>
@@ -54,6 +54,174 @@
     let heatmap = new google.maps.visualization.HeatmapLayer({data: mapData});
 
     let addLayers = map => {
+      let styledMapType = new google.maps.StyledMapType([
+        {
+          "elementType": "geometry",
+          "stylers": [
+            {
+              "color": "#212121"
+            }
+          ]
+        }, {
+          "elementType": "labels.icon",
+          "stylers": [
+            {
+              "visibility": "off"
+            }
+          ]
+        }, {
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {
+              "color": "#757575"
+            }
+          ]
+        }, {
+          "elementType": "labels.text.stroke",
+          "stylers": [
+            {
+              "color": "#212121"
+            }
+          ]
+        }, {
+          "featureType": "administrative",
+          "elementType": "geometry",
+          "stylers": [
+            {
+              "color": "#757575"
+            }
+          ]
+        }, {
+          "featureType": "administrative.country",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {
+              "color": "#9e9e9e"
+            }
+          ]
+        }, {
+          "featureType": "administrative.land_parcel",
+          "stylers": [
+            {
+              "visibility": "off"
+            }
+          ]
+        }, {
+          "featureType": "administrative.locality",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {
+              "color": "#bdbdbd"
+            }
+          ]
+        }, {
+          "featureType": "poi",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {
+              "color": "#757575"
+            }
+          ]
+        }, {
+          "featureType": "poi.park",
+          "elementType": "geometry",
+          "stylers": [
+            {
+              "color": "#181818"
+            }
+          ]
+        }, {
+          "featureType": "poi.park",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {
+              "color": "#616161"
+            }
+          ]
+        }, {
+          "featureType": "poi.park",
+          "elementType": "labels.text.stroke",
+          "stylers": [
+            {
+              "color": "#1b1b1b"
+            }
+          ]
+        }, {
+          "featureType": "road",
+          "elementType": "geometry.fill",
+          "stylers": [
+            {
+              "color": "#2c2c2c"
+            }
+          ]
+        }, {
+          "featureType": "road",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {
+              "color": "#8a8a8a"
+            }
+          ]
+        }, {
+          "featureType": "road.arterial",
+          "elementType": "geometry",
+          "stylers": [
+            {
+              "color": "#373737"
+            }
+          ]
+        }, {
+          "featureType": "road.highway",
+          "elementType": "geometry",
+          "stylers": [
+            {
+              "color": "#3c3c3c"
+            }
+          ]
+        }, {
+          "featureType": "road.highway.controlled_access",
+          "elementType": "geometry",
+          "stylers": [
+            {
+              "color": "#4e4e4e"
+            }
+          ]
+        }, {
+          "featureType": "road.local",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {
+              "color": "#616161"
+            }
+          ]
+        }, {
+          "featureType": "transit",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {
+              "color": "#757575"
+            }
+          ]
+        }, {
+          "featureType": "water",
+          "elementType": "geometry",
+          "stylers": [
+            {
+              "color": "#000000"
+            }
+          ]
+        }, {
+          "featureType": "water",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {
+              "color": "#3d3d3d"
+            }
+          ]
+        }
+      ]);
+      map.mapTypes.set('styled_map', styledMapType);
+      map.setMapTypeId('styled_map');
       heatmap.setMap(map);
       markers.forEach(m => {
         m.setMap(map);
@@ -80,11 +248,28 @@
       let center = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
       let map = new google.maps.Map(mapElem, {
         center: center,
-        zoom: 13
+        zoom: 13,
+        mapTypeId: 'roadmap',
+        zoomControl: true,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: true,
+        backgroundColor: "#000000"
       });
       addLayers(map);
     }, err => {
-      let map = new google.maps.Map(mapElem);
+      let map = new google.maps.Map(mapElem, {
+        mapTypeId: 'roadmap',
+        zoomControl: true,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: true,
+        backgroundColor: "#000000"
+      });
       let geocoder = new google.maps.Geocoder();
       geocoder.geocode({
         'address': 'US'
