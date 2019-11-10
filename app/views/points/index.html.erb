@@ -17,7 +17,7 @@
     <%= label_tag(:ppb, "Lead Conc. (ppb)") %>
     <%= text_field_tag(:ppb, nil, {autocomplete: 'hidden', placeholder: 'ppb'}) %>
 
-    <%= submit_tag("[Post]") %>
+    <%= submit_tag("[Post]", :id => "formSubmit") %>
   <% end %>
 </div>
 <div id="search" class="section">
