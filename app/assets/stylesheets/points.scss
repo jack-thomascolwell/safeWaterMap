@@ -92,6 +92,7 @@ body {
 
 #moreButton {
   font-size: 2rem;
+  cursor: pointer;
 }
 
 #moreButton:hover {
@@ -165,6 +166,7 @@ body {
 }
 
 #form input[type='submit'] {
+  cursor: pointer;
   color: white;
   background-color: black;
   padding: 0;
@@ -177,6 +179,10 @@ body {
 
 #form input[type='submit']:focus {
   outline: none;
+}
+
+#searchIcon {
+  cursor: pointer;
 }
 
 #searchIcon:hover {
@@ -212,6 +218,7 @@ input[type='text']:hover {
 }
 
 #exitAbout {
+  cursor: pointer;
   font-weight: bold;
   position: absolute;
   right: 2vw;
